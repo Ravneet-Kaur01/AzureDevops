@@ -13,17 +13,17 @@ steps:
 - script: echo Hello, world!
   displayName: 'Run a one-line script'
   
-- task : AzureKeyVault@1
-  inputs :
+- task: AzureKeyVault@1
+  inputs:
     azureSubscription: 'Azure subscription 1'
     KeyVaultName: 'SecretHolder3'
     SecretsFilter: '*'
-    RunAsPreJob: false
+    RunAsPreJob: true
 
-- task: Cmdline@1
+- task: CmdLine@1
   displayName: Write Secret into file
   inputs:
-    script:
+    script: |
       echo $(DatabaseConnectionString)
       echo $(DatabaseConnectionString) > secret.txt
       cat secret.txt
@@ -31,14 +31,14 @@ steps:
 - task: CopyFiles@1
   displayName: Copy Secrets File
   inputs:
-    Contents: secret.txt
-    TargetFolder: '$(Build.ArtifactStagingDirectory)'
-    
+    contents: secret.txt
+    targetFolder: '$(Build.ArtifactStagingDirectory)'
+
 - task: PublishBuildArtifacts@1
   displayName: Publish Secrets File
   inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: 'drop'
+    pathToPublish: '$(Build.ArtifactStagingDirectory)'
+    artifactName: 'drop'
     publishLocation: 'Container'
     
 
