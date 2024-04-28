@@ -18,12 +18,12 @@ steps:
     azureSubscription: 'Azure subscription 1'
     KeyVaultName: 'SecretHolder3'
     SecretsFilter: '*'
-    RunAsPreJob: true
+    RunAsPreJob: false
 
 - task: CmdLine@1
   displayName: Write Secret into file
   inputs:
-    script: |
+    filename: secret.txt
       echo $(DatabaseConnectionString)
       echo $(DatabaseConnectionString) > secret.txt
       cat secret.txt
