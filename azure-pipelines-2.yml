@@ -10,25 +10,23 @@ pool:
   name : 'Default'
 
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
   
-- task: AzureKeyVault@1
+- task: AzureKeyVault@2
   inputs:
     azureSubscription: 'Azure subscription 1'
     KeyVaultName: 'SecretHolder3'
     SecretsFilter: '*'
     RunAsPreJob: false
 
-- task: CmdLine@1
+- task: CmdLine@2
   displayName: Write Secret into file
   inputs:
-    filename: secret.txt
+    script: |
       echo $(DatabaseConnectionString)
       echo $(DatabaseConnectionString) > secret.txt
       cat secret.txt
 
-- task: CopyFiles@1
+- task: CopyFiles@2
   displayName: Copy Secrets File
   inputs:
     contents: secret.txt
